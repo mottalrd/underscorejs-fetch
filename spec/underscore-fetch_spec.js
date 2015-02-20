@@ -1,10 +1,10 @@
 describe('Underscore fetch', function() {
 
   describe('attribute exists', function() {
-    var object = { testAttribute: 'testValue' };
+    var object = { color: 'blue' };
 
     it('returns the attribute value', function() {
-      expect(_.fetch(object, 'testAttribute', 'default value')).toEqual('testValue');
+      expect(_.fetch(object, 'color', 'blue')).toEqual('blue');
     });
   });
 
@@ -14,30 +14,32 @@ describe('Underscore fetch', function() {
     describe('without default value or callback', function() {
       it('throw Attribute not found error', function() {
         expect(function() {
-          _.fetch(object, 'testAttribute')
+          _.fetch(object, 'color')
         }).toThrow(new Error('Attribute not found'));
       });
     });
 
     describe('with default value', function() {
       it('returns the default value', function() {
-        expect(_.fetch(object, 'testAttribute', 'default value')).toEqual('default value');
+        expect(_.fetch(object, 'color', 'black')).toEqual('black');
       });
     });
 
     describe('with callback function', function() {
       describe('without parameters', function() {
         it('returns the default value', function() {
-          expect(_.fetch(object, 'testAttribute', function() { return 'fallback' } )).toEqual('fallback');
+          expect(_.fetch(object, 'testAttribute', function() {
+            return 'black';
+          })).toEqual('black');
         });
       });
 
       describe('with parameters', function() {
         it('returns the default value', function() {
-          var testParam = 'fallback';
+          var colorParam = 'black';
           expect(
-            _.fetch(object, 'testAttribute', function(testParam) { return testParam }, testParam, this)
-          ).toEqual('fallback');
+            _.fetch(object, 'color', function(color) { return color }, colorParam, this)
+          ).toEqual('black');
         });
       });
     });
