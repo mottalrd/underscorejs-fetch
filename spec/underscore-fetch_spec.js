@@ -1,49 +1,35 @@
 describe('Underscore fetch', function() {
+  var item = { name: 'pen', color: 'blue' };
 
   describe('attribute exists', function() {
-    var object = { color: 'blue' };
-
-    it('returns the attribute value', function() {
-      expect(_.fetch(object, 'color', 'blue')).toEqual('blue');
+    it('returns the value', function() {
+      expect(_.fetch(item, 'name')).toEqual('pen');
     });
   });
 
   describe('attribute does not exists', function() {
-    var object = { };
-
     describe('without default value or callback', function() {
       it('throw Attribute not found error', function() {
         expect(function() {
-          _.fetch(object, 'color')
+          _.fetch(item, 'price')
         }).toThrow(new Error('Attribute not found'));
       });
     });
 
     describe('with default value', function() {
       it('returns the default value', function() {
-        expect(_.fetch(object, 'color', 'black')).toEqual('black');
+        expect(_.fetch(item, 'price', '2$')).toEqual('2$');
       });
     });
 
     describe('with callback function', function() {
       describe('without parameters', function() {
         it('returns the default value', function() {
-          expect(_.fetch(object, 'testAttribute', function() {
-            return 'black';
-          })).toEqual('black');
-        });
-      });
-
-      describe('with parameters', function() {
-        it('returns the default value', function() {
-          var colorParam = 'black';
-          expect(
-            _.fetch(object, 'color', function(color) { return color }, colorParam, this)
-          ).toEqual('black');
+          expect(_.fetch(item, 'price', function(key) {
+            return 'The ' + key + ' cannot be found';
+          })).toEqual('The price cannot be found');
         });
       });
     });
   });
-
 });
-
